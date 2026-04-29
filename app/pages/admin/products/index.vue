@@ -6,10 +6,10 @@
       <div class="flex justify-between mb-4">
         <span class="font-medium">Product List</span>
         <div>
-        <NuxtLink to="/admin/products/category" class="bg-blue-500 text-white px-4 py-1 rounded-lg">
+        <NuxtLink to="/admin/products/category" class="bg-green-500 text-white px-4 py-1 rounded-lg">
           + Add Category
         </NuxtLink>
-                <NuxtLink to="/admin/products/add" class="bg-blue-500 text-white px-4 py-1 rounded-lg m-1">
+                <NuxtLink to="/admin/products/add" class="bg-green-500 text-white px-4 py-1 rounded-lg m-1">
           + Add Product
         </NuxtLink>
         </div>
@@ -65,12 +65,20 @@
                 </td>
 
                 <td class="p-4 text-center">
+                  <div display="flex" class="flex flex-col gap-2">
                   <button 
                     @click="deleteProduct(product.id)"
-                    class="text-red-500 hover:text-red-600 text-sm"
+                    class="bg-red-500 text-white px-4 py-1 rounded-lg m-1"
                   >
                     Remove
                   </button>
+                  <NuxtLink
+                    :to="`/admin/products/edit/${product.id}`" 
+                    class="bg-blue-500 text-white px-4 py-1 rounded-lg m-1"
+                  >
+                    Edit
+                  </NuxtLink>
+                  </div>
                 </td>
 
               </tr>

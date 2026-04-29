@@ -72,14 +72,14 @@
           body: createFormData(data)
         }),
 
-        update: (id: number, data: Partial<Product>) =>
-          request<Product>(`/product/${id}`, {
+        update: (id: number, data: FormData) =>
+          request(`/product/${id}`, {
           method: 'PATCH',
           body: data
         }),
 
         delete: (id: number) =>
-          request<void>(`/product/${id}`, {
+          request<void>(`/product/delete/${id}`, {
           method: 'DELETE'
         })
       },
@@ -193,10 +193,15 @@
             method: 'GET',
             query: {eq: status}
         }),
+        updateStatus: (id: number, status: OrderStatus) =>
+          request(`/order/status/${id}`, {
+            method: 'PATCH',
+            body: { status }
+        }),
         delete: (id: number) =>
           request<DeleteMsg>(`/order/${id}`, {
             method: 'DELETE'
-          })
+        })
       }
     }
   }
