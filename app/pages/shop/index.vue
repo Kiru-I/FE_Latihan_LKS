@@ -48,7 +48,8 @@ const fetchProducts = async (q = '') => {
         const res = await api.products.getAll()
         products.value = res.data
     } else {
-       products.value = await api.products.search(q)
+        const res =  await api.products.search(q)
+       products.value = res
     }
 
     filteredProducts.value = products.value

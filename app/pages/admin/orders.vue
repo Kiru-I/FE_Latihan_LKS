@@ -28,7 +28,7 @@
       <div
         v-for="order in orders"
         :key="order.id"
-        class="bg-white shadow rounded-2xl p-4 flex justify-between items-center hover:shadow-md transition"
+        class="bg-white shadow rounded-2xl p-4 mb-2 flex justify-between items-center hover:shadow-md transition"
       >
         
         <!-- LEFT SIDE -->

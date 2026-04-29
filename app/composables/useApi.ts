@@ -48,8 +48,11 @@
 
     return {
       products: {
-        getAll: () =>
-          request('/product'),
+      getAll: (page: number, limit: number) =>
+        request('/product', {
+          method: 'GET',
+          query: { page, limit } // 🔥 THIS IS REQUIRED
+        }),
 
         getById: (id: number) =>
           request<Product>(`/product/${id}`),

@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from  'vue'
 import { useApi } from '~/composables/useApi'
 
 const api = useApi()
@@ -21,7 +21,7 @@ const products = ref([])
 
 onMounted(async () => {
   try {
-    const res = await api.products.getAll()
+    const res = await api.products.getAll(1, 4)
     products.value = res.data
   } catch (error) {
     console.error('Failed to fetch products:', error)

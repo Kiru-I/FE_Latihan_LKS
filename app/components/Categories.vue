@@ -8,7 +8,7 @@
     <NuxtLink
       v-for="category in categories"
       :key="category.id"
-      :to="`/shop/category/${category.id}`"
+      :to="`/shop?q=${category.name}`"
       class="min-w-[120px] rounded-2xl shadow p-4 flex flex-col items-center cursor-pointer transition bg-white hover:bg-indigo-600 hover:text-white hover:shadow-md"
     >
       <p class="text-sm font-medium text-center">

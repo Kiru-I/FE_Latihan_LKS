@@ -40,7 +40,7 @@
           class="bg-gray-50 text-gray-600 w-full p-2 mb-3 border rounded text-sm"
             placeholder="Category"
           >
-          <option value=null disabled>Select category</option>
+          <option :value="null" disabled>Select category</option>
           <option 
             v-for="cat in categories" 
             :key="cat.id" 
@@ -69,12 +69,11 @@ import { useToast } from 'vue-toastification'
 
 const api = useApi()
 const toast = useToast()
-
 const name = ref('')
-const stock = ref<number>()
-const price = ref<number>()
+const stock = ref()
+const price = ref()
 const description = ref('')
-const categoryId = ref<number | null>(null) // 🔥 FIX
+const categoryId = ref<number | null>(null)
 const image = ref<File | null>(null)
 
 const handleImageChange = (e: Event) => {
