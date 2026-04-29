@@ -6,7 +6,7 @@
       <div class="relative inline-block">
   <button
     @click="open = !open"
-    class="px-3 py-1 bg-gray-100 rounded"
+    class="px-3 py-1 bg-gray-100 rounded mb-2"
   >
     Sort By : {{ selected.label }}
   </button>
@@ -19,6 +19,7 @@
     v-for="item in options"
     :key="item.value"
     @click="selectOption(item)"
+    class="px-3 py-1"
   >
     {{ item.label }}
   </div>
@@ -58,23 +59,29 @@
         <div class="text-right flex flex-col items-end gap-2">
           
           <!-- Status -->
-          <span
+          <select
+            v-model="order.status"
+            @change="updateStatus(order)"
             class="px-3 py-1 rounded-full text-sm font-medium"
             :class="getStatusClass(order.status)"
-          >
-            {{ order.status || 'Pending' }}
-          </span>
+          ><div class="absolute mt-2 w-40 bg-white border rounded shadow">
+            <option class="bg-white text-black " value="pending">Pending</option>
+            <option class="bg-white text-black" value="paid">Paid</option>
+            <option class="bg-white text-black" value="shipped">Shipped</option>
+            <option class="bg-white text-black" value="delivered">Delivered</option>
+            </div>
+          </select>
 
           <!-- View Button -->
           <button
             @click="goToDetail(order.id)"
-            class="text-indigo-600 hover:underline text-sm"
+            class="mt-2 w-40 bg-white border rounded shadow text-indigo-600 hover:underline text-sm"
           >
             View Detail
           </button>
           <button
           @click="deleteOrder(order.id)"
-          class="text-red-600 hover:underline text-sm"
+          class="mt-2 w-40 bg-white border rounded shadow text-red-600 hover:underline text-sm"
           >
             Delete Order
           </button>
@@ -104,7 +111,7 @@ const toast = useToast()
 const orders = ref<any[]>([])
 const loading = ref(true)
 const error = ref(false)
-
+const changeopen = ref(false)
 const open = ref(false)
 
 type OrderStatus = "pending" | "paid" | "shipped" | "delivered"
@@ -162,6 +169,15 @@ const selectOption = async (option: StatusOption) => {
   }
 }
 
+const updateStatus = async (order: any) => {
+  try {
+    await api.order.updateStatus(order.id, order.status)
+    toast.success('Status updated')
+  } catch (err) {
+    console.error(err)
+    toast.error('Failed to update status')
+  }
+}
 /* ---------------- LIFECYCLE ---------------- */
 
 onMounted(() => {

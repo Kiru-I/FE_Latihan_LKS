@@ -191,8 +191,8 @@ const checkout = async () => {
     } catch (e) {
       console.warn("Failed to clear cart:", e)
     }
-
-    router.push(`/order/placed/${res.data.id}`)
+    console.log(res)
+    router.push(`/order/placed/${res.data.order.id}`)
 
   } catch (err) {
     toast.error(err?.data?.error || 'Checkout gagal')
