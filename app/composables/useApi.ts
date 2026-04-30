@@ -179,9 +179,10 @@
           body: data
         }),
 
-        getAll: () =>
-          request<Order[]>(`/order`, {
-          method: 'GET'
+        getAll: (page: number, limit: number) =>
+          request(`/order`, {
+          method: 'GET',
+          query: {page, limit}
         }),
           getById: (id: number) =>
           request(`/order/${id}`, {

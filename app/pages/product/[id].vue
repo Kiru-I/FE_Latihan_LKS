@@ -22,11 +22,13 @@
         </p>
 
         <button
-          :disabled="loading"
-          class="w-full bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 transition"
+          :disabled="loading || product.stock < 1"
+          :class="product.stock < 1 
+          ? 'w-full bg-gray-400 cursor-not-allowed py-3 rounded-xl text-white' 
+          : 'w-full bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 transition'"
           @click.prevent="addToCart(Number(route.params.id))"
         >
-          {{ loading ? "Adding..." : "Add to Cart" }}
+        {{  product.stock < 1 ? "Out of Stock" : (loading ? "Adding..." : "Add to Cart")}}
         </button>
       </div>
     </div>

@@ -155,6 +155,12 @@ const fetchCart = async () => {
 
 // ✅ Increase quantity
 const increase = async (item) => {
+  // ❌ prevent exceeding stock
+  if (item.quantity >= item.stock) {
+    console.warn("Stock limit reached")
+    return
+  }
+
   try {
     await api.cart.increase(item.productId)
     item.quantity++ // optimistic update ⚡

@@ -17,13 +17,20 @@
         ${{ product.price }}
       </p>
 
-<button
-  :disabled="loading"
-  class="mt-3 w-full bg-indigo-600 text-white py-2 rounded-xl disabled:opacity-50"
-  @click.prevent="addToCart(props.product.id)"
->
-  {{ loading ? "Adding..." : "Add to Cart" }}
-</button>
+      <button
+        :disabled="loading || product.stock < 1"
+        class="mt-3 w-full py-2 rounded-xl text-white"
+        :class="product.stock < 1 
+          ? 'bg-gray-400 cursor-not-allowed' 
+          : 'bg-indigo-600 hover:bg-indigo-700'"
+        @click.prevent="addToCart(product.id)"
+      >
+        {{
+          product.stock < 1
+            ? "Out of Stock"
+            : (loading ? "Adding..." : "Add to Cart")
+        }}
+      </button>
     </div>
   </NuxtLink>
 </template>

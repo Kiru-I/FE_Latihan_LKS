@@ -1,30 +1,32 @@
 <template>
   <div>
     <h2 class="text-2xl font-semibold mb-4">Manage Orders</h2>
-
+    
     <div class="bg-white p-4 rounded-xl shadow">
-      <div class="relative inline-block">
-  <button
-    @click="open = !open"
-    class="px-3 py-1 bg-gray-100 rounded mb-2"
-  >
-    Sort By : {{ selected.label }}
-  </button>
 
-  <div
-    v-if="open"
-    class="absolute mt-2 w-40 bg-white border rounded shadow"
-  >
-  <div
-    v-for="item in options"
-    :key="item.value"
-    @click="selectOption(item)"
-    class="px-3 py-1"
-  >
-    {{ item.label }}
-  </div>
-  </div>
-</div>
+      <div class="relative flex justify-between">
+      <!-- Sort orders -->
+      <div>
+        <button @click="open = !open" class="px-3 py-1 bg-gray-100 rounded"> Sort By : {{ selected.label }} </button>
+          <div v-if="open" class="absolute mt-2 w-40 bg-white border rounded shadow">
+          <div v-for="item in options" :key="item.value" @click="selectOption(item)" class="px-3 py-1">
+        {{ item.label }}
+          </div>
+          </div>
+      </div>
+
+      <!-- Pages -->
+      <div class="flex justify-center gap-2">
+        <button @click="prevPage" :disabled="page === 1" class="px-3 py-1 bg-gray-200 rounded disabled:opacity-50">
+            Prev
+        </button>
+        <span class="px-3 py-1">Page {{ page }}</span>
+        <button @click="nextPage" class="px-3 py-1 bg-gray-200 rounded">
+          Next
+        </button>
+      </div>
+    </div>
+
       <div
         v-for="order in orders"
         :key="order.id"
@@ -99,6 +101,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from '#imports'
 import { useApi } from '~/composables/useApi'
 import { useToast } from 'vue-toastification'
+import Products from '~/components/Section/Products.vue'
 
 /* ---------------- COMPOSABLES ---------------- */
 
@@ -113,6 +116,8 @@ const loading = ref(true)
 const error = ref(false)
 const changeopen = ref(false)
 const open = ref(false)
+const page = ref(1)
+const limit = ref(6)
 
 type OrderStatus = "pending" | "paid" | "shipped" | "delivered"
 
@@ -129,6 +134,18 @@ const options: StatusOption[] = [
   { label: "Delivered", value: "delivered" }
 ]
 
+const nextPage = () => {
+  page.value++
+  fetchOrders()
+}
+
+const prevPage = () => {
+  if (page.value > 1) {
+    page.value--
+    fetchOrders()
+  }
+}
+
 // ✅ FIX: avoid undefined issue
 const selected = ref<StatusOption>(options[0]!)
 
@@ -138,8 +155,8 @@ const selected = ref<StatusOption>(options[0]!)
 const fetchOrders = async () => {
   loading.value = true
   try {
-    const res = await api.order.getAll()
-    orders.value = res
+    const res = await api.order.getAll(page.value, limit.value)
+    orders.value = res.data
   } catch (err) {
     console.error(err)
     error.value = true
